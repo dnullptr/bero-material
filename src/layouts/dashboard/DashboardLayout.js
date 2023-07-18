@@ -1,10 +1,12 @@
-import { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Navigate, Outlet, useNavigate } from 'react-router-dom';
 // @mui
 import { styled } from '@mui/material/styles';
 //
 import Header from './header';
 import Nav from './nav';
+import { useAppSelector } from 'src/lib/redux/hooks';
+import { selectUser } from 'src/lib/redux/reducers/userReducer';
 
 // ----------------------------------------------------------------------
 
@@ -34,6 +36,17 @@ const Main = styled('div')(({ theme }) => ({
 
 export default function DashboardLayout() {
   const [open, setOpen] = useState(false);
+  const user = useAppSelector(selectUser)
+
+  useEffect(() => {
+    console.log(user);
+  }, [user.id]);
+
+  if (!user.email) {
+    return <Navigate to="/login" />;
+  }
+
+
 
   return (
     <StyledRoot>

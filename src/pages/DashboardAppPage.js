@@ -17,11 +17,14 @@ import {
   AppCurrentSubject,
   AppConversionRates,
 } from '../sections/@dashboard/app';
+import { useAppSelector } from 'src/lib/redux/hooks';
+import { selectUser } from 'src/lib/redux/reducers/userReducer';
 
 // ----------------------------------------------------------------------
 
 export default function DashboardAppPage() {
   const theme = useTheme();
+  const user = useAppSelector(selectUser)
 
   return (
     <>
@@ -31,7 +34,9 @@ export default function DashboardAppPage() {
 
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>
-          Hi, Welcome back
+          Hi,  {
+            user.email && user.fullName
+          } Welcome back
         </Typography>
 
         <Grid container spacing={3}>
