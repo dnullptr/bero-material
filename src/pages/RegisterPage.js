@@ -46,7 +46,7 @@ export default function RegisterPage() {
     return (
         <>
             <Helmet>
-                <title> Login | Minimal UI </title>
+                <title> Register | Bero UI </title>
             </Helmet>
 
             <StyledRoot>
@@ -70,11 +70,11 @@ export default function RegisterPage() {
                 <Container maxWidth="sm">
                     <StyledContent>
                         <Typography variant="h4" gutterBottom>
-                            Sign in to Minimal
+                            Be a part of us. Register now.
                         </Typography>
 
                         <Typography variant="body2" sx={{ mb: 5 }}>
-                            have an account? {''}
+                            Already have an account? {''}
                             <Link href='/login' variant="subtitle2">Get started</Link>
                         </Typography>
 

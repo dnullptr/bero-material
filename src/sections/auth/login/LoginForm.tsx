@@ -16,7 +16,7 @@ export default function LoginForm() {
   const navigate = useNavigate()
 
   const [form, setForm] = useState({
-    email: 'Daniel@hassan.com',
+    email: 'daniel@bero-tech.com',
     password: '123456',
   })
 

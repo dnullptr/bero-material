@@ -13,10 +13,10 @@ export default function RegisterForm() {
   const navigate = useNavigate()
   const [form, setForm] = useState({
     phone: '+972546690745',
-    fullName: 'Daniel Hassan',
-    email: 'Daniel@hassan.com',
+    fullName: 'Daniel Ohayon',
+    email: 'Daniel@blabla.com',
     password: '123456',
-    userName: 'zibiii',
+    userName: 'admin12',
   })
   const [showPassword, setShowPassword] = useState(true)
 
