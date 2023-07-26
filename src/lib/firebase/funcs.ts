@@ -17,7 +17,14 @@ export async function signInWithOtp(phone: string, recaptchaVerifier: RecaptchaV
     console.error(error)
   }
 }
-
+export const getAllUsersFromDb = async () => {
+  const docRef = doc(db, 'users')
+  const docSnap = await getDoc(docRef)
+  if (docSnap.exists()) {
+    console.log('Document data:', docSnap.data())
+    return docSnap.data() as User[]
+  }
+}
 export const getUserDataFromDb = async (id: string) => {
   const docRef = doc(db, 'users', id)
   const docSnap = await getDoc(docRef)

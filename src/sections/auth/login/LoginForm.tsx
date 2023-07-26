@@ -1,7 +1,7 @@
 import { useState, useEffect, ChangeEvent } from 'react'
 import { RecaptchaVerifier } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
-import { Box, IconButton, InputAdornment, Stack, TextField } from '@mui/material'
+import { Box, IconButton, InputAdornment, Popover, PropTypes, Stack, TextField, Typography } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
 import { auth } from '../../../lib/firebase/index'
 import { atom, useAtom } from 'jotai'
@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from 'src/lib/redux/hooks'
 import { selectStatus, selectUser, signIn } from 'src/lib/redux/reducers/userReducer'
 import { VisibilityOff } from '@mui/icons-material'
 import Visibility from '@mui/icons-material/Visibility'
+import { Icon } from '@iconify/react'
 
 export default function LoginForm() {
   const dispatch = useAppDispatch()
@@ -22,6 +23,8 @@ export default function LoginForm() {
 
   const [isDisabled, setIsDisabled] = useState(true)
   const [showPassword, setShowPassword] = useState(true)
+  const [loginFailed, setLoginFailed] = useState(false)
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   // useEffect(() => {
   //   const { phone, otp } = form
 
@@ -48,12 +51,13 @@ export default function LoginForm() {
     }
     dispatch(signIn(data))
       .unwrap()
-      .then(() => {
-        navigate('/dashboard')
+      .then((status) => {
+        status ? navigate('/dashboard') : setLoginFailed(true)
       })
       .catch((error) => {
         console.error(error)
       })
+    setAnchorEl(e.target)
   }
 
   return (
@@ -100,6 +104,22 @@ export default function LoginForm() {
       >
         Login
       </LoadingButton>
+      <Popover
+        open={loginFailed}
+        anchorEl={anchorEl}
+        onClose={() => setLoginFailed(false)}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+      >
+        <Icon icon={'eva:alert-fill'} />
+        <Typography sx={{ p: 2 }}>Login Failed! Check your details </Typography>
+      </Popover>
     </>
   )
 }

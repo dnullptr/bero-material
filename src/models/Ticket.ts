@@ -1,10 +1,10 @@
 export interface Ticket {
   title: string
-  status: Statuses
+  status: Status
   ticket_id: number
 }
 
-enum Statuses {
+enum Status {
   Open = 1,
   Closed = 2,
   InProgress = 3,

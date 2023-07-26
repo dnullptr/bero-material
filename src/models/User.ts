@@ -8,4 +8,5 @@ export interface User {
   tickets?: Ticket[]
   phone?: string
   password?: string
+  isAdmin?: boolean
 }

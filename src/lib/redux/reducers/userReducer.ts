@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import type { RootState } from '../index'
 import {
+  getAllUsersFromDb,
   getUserDataFromDb,
   loginWithFirebase,
   logoutWithFirebase,
@@ -62,6 +63,17 @@ export const userSlice = createSlice({
     builder.addCase(logOut.rejected, (state) => {
       state.status = 'failed'
     })
+    builder.addCase(getAll.pending, (state) => {
+      state.status = 'loading'
+    })
+    builder.addCase(getAll.fulfilled, (state, action) => {
+      state.status = 'idle'
+      state.user = action.payload
+    })
+    builder.addCase(getAll.rejected, (state) => {
+      state.status = 'failed'
+      console.log('FB error')
+    })
   },
 })
 
@@ -74,7 +86,7 @@ export const signIn = createAsyncThunk('user/signIn', async (data: { email: stri
 
       const userData = await getUserDataFromDb(user.uid)
       return userData
-    }
+    } else thunkApi.rejectWithValue('error') //return { id: 'Guest', fullName: 'Guest' }
   } catch {
     return thunkApi.rejectWithValue('error')
   }
@@ -94,6 +106,16 @@ export const register = createAsyncThunk('user/register', async (data: User, thu
 export const logOut = createAsyncThunk('user/logout', async (_, thunkApi) => {
   try {
     await logoutWithFirebase()
+  } catch {
+    return thunkApi.rejectWithValue('error')
+  }
+})
+
+export const getAll = createAsyncThunk('user/getAll', async (_, thunkApi) => {
+  try {
+    const users = await getAllUsersFromDb()
+    console.log('users from fb', users)
+    return users
   } catch {
     return thunkApi.rejectWithValue('error')
   }

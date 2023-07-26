@@ -42,7 +42,6 @@ const StyledContent = styled('div')(({ theme }) => ({
 
 export default function LoginPage() {
   const mdUp = useResponsive('up', 'md');
-
   return (
     <>
       <Helmet>
@@ -71,6 +70,7 @@ export default function LoginPage() {
           <StyledContent>
             <Typography variant="h4" gutterBottom>
               Sign in to Bero Cloud Services
+              <Iconify icon="eva:checkmark-circle-fill" marginLeft={1} sx={{ color: 'success.main', width: 24, height: 24 }} />
             </Typography>
 
             <Typography variant="body2" sx={{ mb: 5 }}>
@@ -97,7 +97,6 @@ export default function LoginPage() {
                 OR
               </Typography>
             </Divider>
-
             <LoginForm />
           </StyledContent>
         </Container>
