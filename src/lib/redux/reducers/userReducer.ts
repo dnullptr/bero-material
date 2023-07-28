@@ -9,7 +9,6 @@ import {
   signInWithOtp,
 } from 'src/lib/firebase/funcs'
 import { User } from 'src/models/User'
-
 // Define a type for the slice state
 interface UserState {
   user: any
@@ -83,8 +82,8 @@ export const signIn = createAsyncThunk('user/signIn', async (data: { email: stri
     const user = await loginWithFirebase(email, password)
     if (user) {
       console.log('user', user.uid)
-
       const userData = await getUserDataFromDb(user.uid)
+
       return userData
     } else thunkApi.rejectWithValue('error') //return { id: 'Guest', fullName: 'Guest' }
   } catch {

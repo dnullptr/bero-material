@@ -10,6 +10,7 @@ import { selectStatus, selectUser, signIn } from 'src/lib/redux/reducers/userRed
 import { VisibilityOff } from '@mui/icons-material'
 import Visibility from '@mui/icons-material/Visibility'
 import { Icon } from '@iconify/react'
+import { toast } from 'react-toastify'
 
 export default function LoginForm() {
   const dispatch = useAppDispatch()
@@ -23,8 +24,8 @@ export default function LoginForm() {
 
   const [isDisabled, setIsDisabled] = useState(true)
   const [showPassword, setShowPassword] = useState(true)
-  const [loginFailed, setLoginFailed] = useState(false)
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const [loginFailed, setLoginFailed] = useState<boolean>(false)
+
   // useEffect(() => {
   //   const { phone, otp } = form
 
@@ -49,15 +50,19 @@ export default function LoginForm() {
       email,
       password,
     }
+    toast.loading('Loading..')
     dispatch(signIn(data))
       .unwrap()
       .then((status) => {
-        status ? navigate('/dashboard') : setLoginFailed(true)
+        toast.dismiss()
+        status
+          ? toast.success('Login success') && navigate('/dashboard')
+          : toast.error('Login failed, Check your credentials')
       })
       .catch((error) => {
         console.error(error)
       })
-    setAnchorEl(e.target)
+
   }
 
   return (
@@ -104,22 +109,6 @@ export default function LoginForm() {
       >
         Login
       </LoadingButton>
-      <Popover
-        open={loginFailed}
-        anchorEl={anchorEl}
-        onClose={() => setLoginFailed(false)}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'left',
-        }}
-      >
-        <Icon icon={'eva:alert-fill'} />
-        <Typography sx={{ p: 2 }}>Login Failed! Check your details </Typography>
-      </Popover>
     </>
   )
 }
